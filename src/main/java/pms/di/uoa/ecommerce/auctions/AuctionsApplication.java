@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 @SpringBootApplication
 public class AuctionsApplication {
 
+
     public static void main(String[] args) {
         SpringApplication.run(AuctionsApplication.class, args);
     }
