@@ -1,7 +1,13 @@
 package pms.di.uoa.ecommerce.auctions.modeldb;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.NonNull;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -14,7 +20,7 @@ public class Users {
     @Column(name = "username", nullable = false, length = 55)
     private String username;
     @Basic
-    @Column(name = "password_id", nullable = false, length = 55)
+    @Column(name = "password_id", nullable = false, length = 120)
     private String passwordId;
     @Basic
     @Column(name = "email", nullable = false, length = 255)
@@ -23,7 +29,7 @@ public class Users {
     @Column(name = "tel_number", nullable = true, length = 55)
     private String telNumber;
     @Basic
-    @Column(name = "fullname", nullable = true, length = 55)
+    @Column(name = "fullname", nullable = true, length = 120)
     private String fullname;
     @Basic
     @Column(name = "country", nullable = true, length = 55)
@@ -32,15 +38,26 @@ public class Users {
     @Column(name = "location", nullable = true, length = 255)
     private String location;
     @Basic
+    @Column(name = "enabled", nullable = true)
+    private boolean enabled;
+    @Basic
+    @NonNull
+    @Column(name = "registration_date", nullable = true)
+    private Instant registrationDate;
+    @Basic
     @Column(name = "role_role_id", nullable = true)
     private Integer roleRoleId;
-    @OneToMany(mappedBy = "usersByBidderUserId")
-    private Collection<Bids> bidsByUserId;
-    @OneToMany(mappedBy = "usersByCreatorUserId")
-    private Collection<Items> itemsByUserId;
+    //@OneToMany(mappedBy = "usersByBidderUserId")
+    //private Collection<Bids> bidsByUserId;
+    //@OneToMany(mappedBy = "usersByCreatorUserId")
+    //private Collection<Items> itemsByUserId;
     @ManyToOne
     @JoinColumn(name = "role_role_id", referencedColumnName = "role_id", insertable=false, updatable=false)
     private Role roleByRoleRoleId;
+
+    @OneToMany(mappedBy = "usersByCreatorUserId")
+    @JsonIgnoreProperties("usersByCreatorUserId")
+    private List<Items> items;
 
     public long getUserId() {
         return userId;
@@ -106,6 +123,25 @@ public class Users {
         this.location = location;
     }
 
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public Instant getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(Instant registrationDate) {
+        this.registrationDate = registrationDate;
+    }
     public Integer getRoleRoleId() {
         return roleRoleId;
     }
@@ -119,29 +155,34 @@ public class Users {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Users users = (Users) o;
-        return userId == users.userId && Objects.equals(username, users.username) && Objects.equals(passwordId, users.passwordId) && Objects.equals(email, users.email) && Objects.equals(telNumber, users.telNumber) && Objects.equals(fullname, users.fullname) && Objects.equals(country, users.country) && Objects.equals(location, users.location) && Objects.equals(roleRoleId, users.roleRoleId);
+        return userId == users.userId && Objects.equals(username, users.username)
+                && Objects.equals(passwordId, users.passwordId) && Objects.equals(email, users.email)
+                && Objects.equals(telNumber, users.telNumber) && Objects.equals(fullname, users.fullname)
+                && Objects.equals(country, users.country) && Objects.equals(location, users.location)
+                && Objects.equals(enabled, users.enabled) && Objects.equals(roleRoleId, users.roleRoleId)
+                && Objects.equals(registrationDate, users.registrationDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, passwordId, email, telNumber, fullname, country, location, roleRoleId);
+        return Objects.hash(userId, username, passwordId, email, telNumber, fullname, country, location,enabled, registrationDate, roleRoleId);
     }
 
-    public Collection<Bids> getBidsByUserId() {
-        return bidsByUserId;
-    }
-
-    public void setBidsByUserId(Collection<Bids> bidsByUserId) {
-        this.bidsByUserId = bidsByUserId;
-    }
-
-    public Collection<Items> getItemsByUserId() {
-        return itemsByUserId;
-    }
-
-    public void setItemsByUserId(Collection<Items> itemsByUserId) {
-        this.itemsByUserId = itemsByUserId;
-    }
+//    public Collection<Bids> getBidsByUserId() {
+//        return bidsByUserId;
+//    }
+//
+//    public void setBidsByUserId(Collection<Bids> bidsByUserId) {
+//        this.bidsByUserId = bidsByUserId;
+//    }
+//
+//    public Collection<Items> getItemsByUserId() {
+//        return itemsByUserId;
+//    }
+//
+//    public void setItemsByUserId(Collection<Items> itemsByUserId) {
+//        this.itemsByUserId = itemsByUserId;
+//    }
 
     public Role getRoleByRoleRoleId() {
         return roleByRoleRoleId;

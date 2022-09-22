@@ -1,5 +1,7 @@
 package pms.di.uoa.ecommerce.auctions.modeldb;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -21,9 +23,6 @@ public class Items {
     @Column(name = "category_id", nullable = false)
     private int categoryId;
     @Basic
-    @Column(name = "creator_user_id", nullable = false)
-    private long creatorUserId;
-    @Basic
     @Column(name = "creation_date", nullable = false)
     private Date creationDate;
     @Basic
@@ -41,7 +40,9 @@ public class Items {
     @Basic
     @Column(name = "image_path", nullable = true, length = 255)
     private String imagePath;
-    @ManyToOne
+
+    @JsonIgnoreProperties("items")
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "creator_user_id", referencedColumnName = "user_id", nullable = false, insertable=false, updatable=false)
     private Users usersByCreatorUserId;
 
@@ -75,14 +76,6 @@ public class Items {
 
     public void setCategoryId(int categoryId) {
         this.categoryId = categoryId;
-    }
-
-    public long getCreatorUserId() {
-        return creatorUserId;
-    }
-
-    public void setCreatorUserId(long creatorUserId) {
-        this.creatorUserId = creatorUserId;
     }
 
     public Date getCreationDate() {
@@ -138,12 +131,12 @@ public class Items {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Items items = (Items) o;
-        return itmId == items.itmId && itemId == items.itemId && categoryId == items.categoryId && creatorUserId == items.creatorUserId && Objects.equals(itemName, items.itemName) && Objects.equals(creationDate, items.creationDate) && Objects.equals(endDate, items.endDate) && Objects.equals(itemLocation, items.itemLocation) && Objects.equals(itemCountry, items.itemCountry) && Objects.equals(firstBid, items.firstBid) && Objects.equals(imagePath, items.imagePath);
+        return itmId == items.itmId && itemId == items.itemId && categoryId == items.categoryId && Objects.equals(itemName, items.itemName) && Objects.equals(creationDate, items.creationDate) && Objects.equals(endDate, items.endDate) && Objects.equals(itemLocation, items.itemLocation) && Objects.equals(itemCountry, items.itemCountry) && Objects.equals(firstBid, items.firstBid) && Objects.equals(imagePath, items.imagePath);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(itmId, itemId, itemName, categoryId, creatorUserId, creationDate, endDate, itemLocation, itemCountry, firstBid, imagePath);
+        return Objects.hash(itmId, itemId, itemName, categoryId, creationDate, endDate, itemLocation, itemCountry, firstBid, imagePath);
     }
 
     public Users getUsersByCreatorUserId() {

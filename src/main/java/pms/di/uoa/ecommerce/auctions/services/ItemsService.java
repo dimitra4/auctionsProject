@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pms.di.uoa.ecommerce.auctions.handleExceptions.CreationDateGreaterThanEndDate;
 import pms.di.uoa.ecommerce.auctions.handleExceptions.ItemNotFoundException;
 import pms.di.uoa.ecommerce.auctions.modeldb.Items;
+import pms.di.uoa.ecommerce.auctions.modeldb.Users;
 import pms.di.uoa.ecommerce.auctions.repositories.ItemsRepository;
 
 import javax.transaction.Transactional;
@@ -40,6 +41,7 @@ public class ItemsService {
         //long creatorUserId = item.getCreatorUserId();
         Date creationDate = item.getCreationDate();
         Date endDate = item.getEndDate();
+        Users user = item.getUsersByCreatorUserId();
         //String itemCountry = item.getItemCountry();
         //String itemItemLocation = item.getItemLocation();
         //BigDecimal firstBid = item.getFirstBid();

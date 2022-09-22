@@ -1,5 +1,7 @@
 package pms.di.uoa.ecommerce.auctions.modeldb;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Date;
@@ -12,20 +14,20 @@ public class Bids {
     @Column(name = "bid_id", nullable = false)
     private long bidId;
     @Basic
-    @Column(name = "item_id", nullable = false)
-    private long itemId;
-    @Basic
-    @Column(name = "bidder_user_id", nullable = false)
-    private long bidderUserId;
-    @Basic
     @Column(name = "date_of_bid", nullable = false)
     private Date dateOfBid;
     @Basic
     @Column(name = "amount_of_bid", nullable = false, precision = 5)
     private BigDecimal amountOfBid;
-    @ManyToOne
+    @JsonIgnoreProperties("Bids")
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "bidder_user_id", referencedColumnName = "user_id", nullable = false, insertable=false, updatable=false)
-    private Users usersByBidderUserId;
+    private Users user;
+
+    @JsonIgnoreProperties("Bids")
+    @ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "item_id", referencedColumnName = "itm_id", nullable = false, insertable=false, updatable=false)
+    private Items item;
 
     public long getBidId() {
         return bidId;
@@ -33,22 +35,6 @@ public class Bids {
 
     public void setBidId(long bidId) {
         this.bidId = bidId;
-    }
-
-    public long getItemId() {
-        return itemId;
-    }
-
-    public void setItemId(long itemId) {
-        this.itemId = itemId;
-    }
-
-    public long getBidderUserId() {
-        return bidderUserId;
-    }
-
-    public void setBidderUserId(long bidderUserId) {
-        this.bidderUserId = bidderUserId;
     }
 
     public Date getDateOfBid() {
@@ -72,19 +58,27 @@ public class Bids {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Bids bids = (Bids) o;
-        return bidId == bids.bidId && itemId == bids.itemId && bidderUserId == bids.bidderUserId && Objects.equals(dateOfBid, bids.dateOfBid) && Objects.equals(amountOfBid, bids.amountOfBid);
+        return bidId == bids.bidId && Objects.equals(dateOfBid, bids.dateOfBid) && Objects.equals(amountOfBid, bids.amountOfBid);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bidId, itemId, bidderUserId, dateOfBid, amountOfBid);
+        return Objects.hash(bidId, dateOfBid, amountOfBid);
     }
 
-    public Users getUsersByBidderUserId() {
-        return usersByBidderUserId;
+    public Users getUser() {
+        return user;
     }
 
-    public void setUsersByBidderUserId(Users usersByBidderUserId) {
-        this.usersByBidderUserId = usersByBidderUserId;
+    public void setUser(Users user) {
+        this.user = user;
+    }
+
+    public Items getItem() {
+        return item;
+    }
+
+    public void setItem(Items item) {
+        this.item = item;
     }
 }
