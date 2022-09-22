@@ -1,3 +1,43 @@
+Hibernate: 
+    select
+        items0_.itm_id as itm_id1_3_,
+        items0_.category_id as category2_3_,
+        items0_.creation_date as creation3_3_,
+        items0_.end_date as end_date4_3_,
+        items0_.first_bid as first_bi5_3_,
+        items0_.image_path as image_pa6_3_,
+        items0_.item_country as item_cou7_3_,
+        items0_.item_id as item_id8_3_,
+        items0_.item_location as item_loc9_3_,
+        items0_.item_name as item_na10_3_,
+        items0_.creator_user_id as creator11_3_ 
+    from
+        pms.items items0_
+Hibernate: 
+    select
+        users0_.user_id as user_id1_5_0_,
+        users0_.country as country2_5_0_,
+        users0_.email as email3_5_0_,
+        users0_.enabled as enabled4_5_0_,
+        users0_.fullname as fullname5_5_0_,
+        users0_.location as location6_5_0_,
+        users0_.password_id as password7_5_0_,
+        users0_.registration_date as registra8_5_0_,
+        users0_.role_role_id as role_rol9_5_0_,
+        users0_.tel_number as tel_num10_5_0_,
+        users0_.username as usernam11_5_0_,
+        role1_.role_id as role_id1_4_1_,
+        role1_.role_description as role_des2_4_1_ 
+    from
+        pms.users users0_ 
+    left outer join
+        pms.role role1_ 
+            on users0_.role_role_id=role1_.role_id 
+    where
+        users0_.user_id=?
+
+
+
 pms.di.uoa.ecommerce.auctions.modeldb.Items@20e6cd62022-09-22 15:27:55.275 ERROR 13452 --- [io-8443-exec-10] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed; nested exception is org.springframework.dao.InvalidDataAccessApiUsageException: detached entity passed to persist: pms.di.uoa.ecommerce.auctions.modeldb.Users; nested exception is org.hibernate.PersistentObjectException: detached entity passed to persist: pms.di.uoa.ecommerce.auctions.modeldb.Users] with root cause
 
 org.hibernate.PersistentObjectException: detached entity passed to persist: pms.di.uoa.ecommerce.auctions.modeldb.Users
