@@ -1,0 +1,5 @@
+Building a Mobile App for electronic auctions on Android devices. The users can login/register and search auctions based on the category or description of an item. 
+The users can then bid on the auctions they are interested in. 
+Other functions include creating their own auctions, managing their profile, viewing their own auctions and bids.
+
+Technologies: Java, Spring Boot, Android
